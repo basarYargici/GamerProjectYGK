@@ -31,19 +31,18 @@ namespace GamerProject.Concrete
             bool isSelected = false;
             Campaign selectedCampaign = null;
 
-            Console.WriteLine("Available campaigns for " +gamer.Name);
+            Console.WriteLine("Available campaigns for " + gamer.Name);
             foreach (var campaign in _campaignService.AllCampaigns()
                 .Where(campaign => !gamer.UsedCampaigns.Contains(campaign)))
             {
                 Console.WriteLine("Campaign id = " + campaign.Id + "Campaign title = " + campaign.Title +
                                   " discount rate= " + campaign.Discount);
             }
-            
-            //TODO if user enters \0 program throws error
+
             while (!isSelected)
             {
                 Console.WriteLine("Which campaign would you like to select? Please enter id :");
-                var id = int.Parse(Console.ReadLine() ?? "0");
+                int id = int.Parse(Console.ReadLine() ?? "0");
                 selectedCampaign = _campaignService.GetCampaign(id);
                 if (selectedCampaign != null && _campaignService.AllCampaigns().Contains(selectedCampaign))
                 {
@@ -55,11 +54,12 @@ namespace GamerProject.Concrete
                 }
             }
 
-            gamer.Budget -= (game.Price - game.Price * selectedCampaign.Discount/100);
+            gamer.Budget -= (game.Price - game.Price * selectedCampaign.Discount / 100);
             gamer.BoughtGames.Add(game);
             gamer.UsedCampaigns.Add(selectedCampaign);
 
-            Console.WriteLine(gamer.Name + " bought " + game.Name + " with %" + selectedCampaign.Discount +" discounted price !!!");
+            Console.WriteLine(gamer.Name + " bought " + game.Name + " with %" + selectedCampaign.Discount +
+                              " discounted price !!!");
         }
     }
 }

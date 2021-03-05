@@ -1,0 +1,3 @@
+﻿//TODO if user enters \0 program throws error
+//TODO user can use used campaign again 
+//TODO user validation implementation 

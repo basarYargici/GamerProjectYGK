@@ -10,11 +10,9 @@ namespace GamerProject.Concrete
     {
         private readonly List<Gamer> _gamers = new List<Gamer>();
         private readonly ISaleService _saleService;
-        private readonly ICampaignService _campaignService;
 
-        public GamerManager(ICampaignService campaignService, ISaleService saleService)
+        public GamerManager(ISaleService saleService)
         {
-            _campaignService = campaignService;
             _saleService = saleService;
         }
 
@@ -55,18 +53,17 @@ namespace GamerProject.Concrete
         {
             if (gamer.BoughtGames.Contains(game))
             {
-                Console.WriteLine(gamer.Name + " has already bought " + game.Name);
+                Console.WriteLine(gamer.Name + " has already bought " + game.Name + "\n");
             }
             else if (gamer.Budget < game.Price)
             {
-                Console.WriteLine(gamer.Name + " does not have enough budget to buy" + game.Name);
+                Console.WriteLine(gamer.Name + " does not have enough budget to buy" + game.Name + "\n");
             }
             else
             {
                 _saleService.SaleProduct(gamer, game);
             }
         }
-
 
         public void AllGamers()
         {
@@ -77,7 +74,7 @@ namespace GamerProject.Concrete
             }
         }
 
-        private void AllGameNames(Gamer gamer)
+        public void AllGameNames(Gamer gamer)
         {
             foreach (var bought in gamer.BoughtGames)
             {

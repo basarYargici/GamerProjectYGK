@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GamerProject.Abstract;
 using GamerProject.Concrete;
 using GamerProject.Entities;
 
@@ -12,10 +11,16 @@ namespace GamerProject
         {
             Console.WriteLine("Program Working\n");
 
-            ICampaignService campaignService = new CampaignManager();
-            ISaleService saleService = new SaleManager(campaignService);
-            GamerManager gamerManager = new GamerManager(campaignService, saleService);
+            #region Manager instantiation
+
+            CampaignManager campaignManager = new CampaignManager();
+            SaleManager saleManager = new SaleManager(campaignManager);
+            GamerManager gamerManager = new GamerManager(saleManager);
             GameManager gameManager = new GameManager();
+
+            #endregion
+
+            #region Campaign insantiation
 
             Campaign lowCampaign = new Campaign
             {
@@ -38,9 +43,13 @@ namespace GamerProject
                 Title = "%30 discount!"
             };
 
-            campaignService.NewCampaign(lowCampaign);
-            campaignService.NewCampaign(midCampaign);
-            campaignService.NewCampaign(highCampaign);
+            #endregion
+
+            campaignManager.NewCampaign(lowCampaign);
+            campaignManager.NewCampaign(midCampaign);
+            campaignManager.NewCampaign(highCampaign);
+
+            #region Game insantiation
 
             Game cod4 = new Game
             {
@@ -62,9 +71,13 @@ namespace GamerProject
                 Price = 2000
             };
 
+            #endregion
+
             gameManager.AddGame(gta5);
             gameManager.AddGame(cod4);
             gameManager.AddGame(codBlackOps);
+
+            #region Gamer instantiation
 
             Gamer poorGamer = new Gamer
             {
@@ -72,9 +85,9 @@ namespace GamerProject
                 Surname = "Yargici",
                 IdentityNumber = "12345678910",
                 BirthDate = new DateTime(2020, 5, 01),
-                BoughtGames = new List<Game> {cod4},
+                BoughtGames = new List<Game>(),
                 Budget = 100,
-                UsedCampaigns = new List<Campaign>()
+                UsedCampaigns = new List<Campaign> {midCampaign}
             };
 
             Gamer richGamer = new Gamer
@@ -87,7 +100,9 @@ namespace GamerProject
                 Budget = 400,
                 UsedCampaigns = new List<Campaign>
                 {
-                    lowCampaign
+                    lowCampaign,
+                    midCampaign,
+                    highCampaign
                 }
             };
 
@@ -99,22 +114,41 @@ namespace GamerProject
                 IdentityNumber = "null",
                 Budget = 9999999999999999,
                 BirthDate = new DateTime(1111, 01, 01),
-                BoughtGames = new List<Game> {gta5, cod4, codBlackOps},
-                UsedCampaigns = new List<Campaign> { }
+                BoughtGames = new List<Game> {gta5, cod4},
+                UsedCampaigns = new List<Campaign>()
             };
 
+            #endregion
 
+            // Add gamers
             gamerManager.NewGamer(poorGamer);
             gamerManager.NewGamer(richGamer);
             gamerManager.NewGamer(hackerGamer);
 
+            // Print all gamers
+            // gamerManager.AllGamers();
 
-            gamerManager.AllGamers();
+            // All games
+            // gameManager.AllGames();
 
+            // All games that hackerGamer has
+            // gamerManager.AllGameNames(hackerGamer);
+
+            // All conditions on buying games
+            // gamerManager.BuyGame(richGamer, codBlackOps);
+            // 
+            // gamerManager.BuyGame(poorGamer, cod4);
+            // 
+            // gamerManager.BuyGame(hackerGamer, codBlackOps);
+            // 
+            // gamerManager.AllGamers();
+
+
+            // Delete gamer            
             // gamerManager.DeleteGamer(hackerGamer);
-            gamerManager.BuyGame(richGamer, codBlackOps);
-            
-            gamerManager.AllGamers();
+
+            // Update gamer
+            // gamerManager.UpdateGamer(hackerGamer);
         }
     }
 }

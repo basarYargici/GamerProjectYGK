@@ -19,7 +19,7 @@ namespace GamerProject.Concrete
             // if user used all campaigns there should not be any campaign for gamer
             if (_campaignService.AllCampaigns().Count == gamer.UsedCampaigns.Count)
             {
-                Console.WriteLine(gamer.Name + " used all campaigns!");
+                Console.WriteLine(gamer.Name + " used all campaigns! \n");
                 return;
             }
 
@@ -29,7 +29,6 @@ namespace GamerProject.Concrete
         private void SelectCampaign(Gamer gamer, Game game)
         {
             bool isSelected = false;
-            Campaign selectedCampaign = null;
 
             Console.WriteLine("Available campaigns for " + gamer.Name);
             foreach (var campaign in _campaignService.AllCampaigns()
@@ -41,25 +40,32 @@ namespace GamerProject.Concrete
 
             while (!isSelected)
             {
-                Console.WriteLine("Which campaign would you like to select? Please enter id :");
-                int id = int.Parse(Console.ReadLine() ?? "0");
-                selectedCampaign = _campaignService.GetCampaign(id);
-                if (selectedCampaign != null && _campaignService.AllCampaigns().Contains(selectedCampaign))
+                Console.WriteLine("\nWhich campaign would you like to select? Please enter id :");
+                try
                 {
-                    isSelected = true;
+                    int id = int.Parse(Console.ReadLine() ?? "0");
+                    if (gamer.UsedCampaigns.FirstOrDefault(campaign => campaign.Id == id) != null)
+                    {
+                        Console.WriteLine("Please enter valid id!");
+                    }
+
+                    else
+                    {
+                        var selectedCampaign = _campaignService.GetCampaign(id);
+                        isSelected = true;
+                        gamer.Budget -= (game.Price - game.Price * selectedCampaign.Discount / 100);
+                        gamer.BoughtGames.Add(game);
+                        gamer.UsedCampaigns.Add(selectedCampaign);
+
+                        Console.WriteLine(gamer.Name + " bought " + game.Name + " with %" + selectedCampaign.Discount +
+                                          " discounted price !!!");
+                    }
                 }
-                else
+                catch
                 {
                     Console.WriteLine("Please enter valid id!");
                 }
             }
-
-            gamer.Budget -= (game.Price - game.Price * selectedCampaign.Discount / 100);
-            gamer.BoughtGames.Add(game);
-            gamer.UsedCampaigns.Add(selectedCampaign);
-
-            Console.WriteLine(gamer.Name + " bought " + game.Name + " with %" + selectedCampaign.Discount +
-                              " discounted price !!!");
         }
     }
 }

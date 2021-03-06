@@ -4,6 +4,6 @@ namespace GamerProject.Abstract
 {
     public interface IValidationService
     {
-        void IsGamerValid(Gamer gamer);
+        bool IsGamerValid(Gamer gamer);
     }
 }

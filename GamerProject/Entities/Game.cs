@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GamerProject.Entities
+﻿namespace GamerProject.Entities
 {
     public class Game
     {

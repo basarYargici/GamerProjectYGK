@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GamerProject.Entities;
+﻿using GamerProject.Entities;
 
 namespace GamerProject.Abstract
 {

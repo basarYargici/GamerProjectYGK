@@ -13,30 +13,31 @@ namespace GamerProject
 
             #region Manager instantiation
 
-            CampaignManager campaignManager = new CampaignManager();
-            SaleManager saleManager = new SaleManager(campaignManager);
-            GamerManager gamerManager = new GamerManager(saleManager);
-            GameManager gameManager = new GameManager();
+            var campaignManager = new CampaignManager();
+            var saleManager = new SaleManager(campaignManager);
+            var gamerManager = new GamerManager(saleManager);
+            var gameManager = new GameManager();
+            var validationManager = new ValidationManager();
 
             #endregion
 
             #region Campaign insantiation
 
-            Campaign lowCampaign = new Campaign
+            var lowCampaign = new Campaign
             {
                 Id = 1,
                 Discount = 10,
                 Title = "%10 discount!"
             };
 
-            Campaign midCampaign = new Campaign
+            var midCampaign = new Campaign
             {
                 Id = 2,
                 Discount = 20,
                 Title = "%20 discount!"
             };
 
-            Campaign highCampaign = new Campaign
+            var highCampaign = new Campaign
             {
                 Id = 3,
                 Discount = 20,
@@ -51,20 +52,20 @@ namespace GamerProject
 
             #region Game insantiation
 
-            Game cod4 = new Game
+            var cod4 = new Game
             {
                 Id = 1,
                 Name = "Call Of Duty 4",
                 Price = 100
             };
-            Game codBlackOps = new Game
+            var codBlackOps = new Game
             {
                 Id = 2,
                 Name = "Call Of Duty Black Ops",
                 Price = 200
             };
 
-            Game gta5 = new Game
+            var gta5 = new Game
             {
                 Id = 3,
                 Name = "GTA 5",
@@ -79,9 +80,9 @@ namespace GamerProject
 
             #region Gamer instantiation
 
-            Gamer poorGamer = new Gamer
+            var poorGamer = new Gamer
             {
-                Id = 1, Name = "ibrahim",
+                Id = 1, Name = "Ibrahim",
                 Surname = "Yargici",
                 IdentityNumber = "12345678910",
                 BirthDate = new DateTime(2020, 5, 01),
@@ -90,10 +91,10 @@ namespace GamerProject
                 UsedCampaigns = new List<Campaign> {midCampaign}
             };
 
-            Gamer richGamer = new Gamer
+            var richGamer = new Gamer
             {
-                Id = 2, Name = "basar",
-                Surname = "Yargıcı",
+                Id = 2, Name = "Basar",
+                Surname = "Yargici",
                 IdentityNumber = "00012345670",
                 BirthDate = new DateTime(2000, 11, 01),
                 BoughtGames = new List<Game> {gta5},
@@ -106,7 +107,7 @@ namespace GamerProject
                 }
             };
 
-            Gamer hackerGamer = new Gamer
+            var hackerGamer = new Gamer
             {
                 Id = 3,
                 Name = "hacker",
@@ -124,6 +125,9 @@ namespace GamerProject
             gamerManager.NewGamer(poorGamer);
             gamerManager.NewGamer(richGamer);
             gamerManager.NewGamer(hackerGamer);
+
+            // Is gamer valid
+            // Console.WriteLine(validationManager.IsGamerValid(richGamer));
 
             // Print all gamers
             // gamerManager.AllGamers();

@@ -7,7 +7,7 @@ namespace GamerProject.Concrete
 {
     public class SaleManager : ISaleService
     {
-        private ICampaignService _campaignService;
+        private readonly ICampaignService _campaignService;
 
         public SaleManager(ICampaignService campaignService)
         {
@@ -28,22 +28,20 @@ namespace GamerProject.Concrete
 
         private void SelectCampaign(Gamer gamer, Game game)
         {
-            bool isSelected = false;
+            var isSelected = false;
 
             Console.WriteLine("Available campaigns for " + gamer.Name);
             foreach (var campaign in _campaignService.AllCampaigns()
                 .Where(campaign => !gamer.UsedCampaigns.Contains(campaign)))
-            {
                 Console.WriteLine("Campaign id = " + campaign.Id + "Campaign title = " + campaign.Title +
                                   " discount rate= " + campaign.Discount);
-            }
 
             while (!isSelected)
             {
                 Console.WriteLine("\nWhich campaign would you like to select? Please enter id :");
                 try
                 {
-                    int id = int.Parse(Console.ReadLine() ?? "0");
+                    var id = int.Parse(Console.ReadLine() ?? "0");
                     if (gamer.UsedCampaigns.FirstOrDefault(campaign => campaign.Id == id) != null)
                     {
                         Console.WriteLine("Please enter valid id!");
@@ -53,7 +51,7 @@ namespace GamerProject.Concrete
                     {
                         var selectedCampaign = _campaignService.GetCampaign(id);
                         isSelected = true;
-                        gamer.Budget -= (game.Price - game.Price * selectedCampaign.Discount / 100);
+                        gamer.Budget -= game.Price - game.Price * selectedCampaign.Discount / 100;
                         gamer.BoughtGames.Add(game);
                         gamer.UsedCampaigns.Add(selectedCampaign);
 

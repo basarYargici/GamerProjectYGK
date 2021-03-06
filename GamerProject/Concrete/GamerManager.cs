@@ -20,26 +20,18 @@ namespace GamerProject.Concrete
         public void NewGamer(Gamer gamer)
         {
             if (_gamers.Contains(gamer))
-            {
                 Console.WriteLine("Gamer already exists");
-            }
             else
-            {
                 _gamers.Add(gamer);
-            }
         }
 
         public void DeleteGamer(Gamer gamer)
         {
             var gamerInstance = _gamers.FirstOrDefault(g => g.Id == gamer.Id);
             if (gamerInstance != null)
-            {
                 _gamers.Remove(gamerInstance);
-            }
             else
-            {
                 Console.WriteLine(gamer.Name + " not found");
-            }
         }
 
         public void UpdateGamer(Gamer gamer)
@@ -52,17 +44,11 @@ namespace GamerProject.Concrete
         public void BuyGame(Gamer gamer, Game game)
         {
             if (gamer.BoughtGames.Contains(game))
-            {
                 Console.WriteLine(gamer.Name + " has already bought " + game.Name + "\n");
-            }
             else if (gamer.Budget < game.Price)
-            {
                 Console.WriteLine(gamer.Name + " does not have enough budget to buy" + game.Name + "\n");
-            }
             else
-            {
                 _saleService.SaleProduct(gamer, game);
-            }
         }
 
         public void AllGamers()
@@ -76,10 +62,7 @@ namespace GamerProject.Concrete
 
         public void AllGameNames(Gamer gamer)
         {
-            foreach (var bought in gamer.BoughtGames)
-            {
-                Console.WriteLine("name = " + bought.Name);
-            }
+            foreach (var bought in gamer.BoughtGames) Console.WriteLine("name = " + bought.Name);
 
             Console.WriteLine("\n");
         }
